@@ -6,7 +6,7 @@
     <body>
         <form action="/usun-zaznaczone" method="post">
             <p>{% for pozycja in pozyczki %}
-                {{pozycja}}<input type="checkbox" name="usun-zaznaczone" value="{{loop.index0}}"><br>
+                {{pozycja}}<input type="checkbox" name="usun-zaznaczone" value="{{pozycja[0]}}"><br>
             {% endfor %}</p>
             <input type="submit" value="usuń zaznaczone">
         </form>

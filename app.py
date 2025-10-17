@@ -1,24 +1,28 @@
 from flask import Flask, redirect, request, render_template
-import json, os
+import psycopg2
 
 app = Flask(__name__)
 
+def get_db_connection():
+    conn = psycopg2.connect(
+    host="dpg-d3pa50hr0fns73afnrd0-a.frankfurt-postgres.render.com",
+    database="pozyczki_db",
+    user="pozyczki_db_user",
+    password="3Ez2JQS6c1GJVunGJ5dz0tcCpp9P0SvY",
+    port="5432"
+)
+    return conn
+    
 pozyczki = []
-
-def zapisz_pozyczki():
-    with open("pozyczki.json", "w", encoding="utf-8") as f:
-        json.dump(pozyczki, f, ensure_ascii=False, indent=4)
-
-def wczytaj_pozyczki():
-    global pozyczki
-    if os.path.exists("pozyczki.json"):
-        with open("pozyczki.json", "r", encoding="utf-8") as f:
-            pozyczki = json.load(f)
-
-wczytaj_pozyczki()
 
 @app.route('/')
 def home():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM pozyczki;")
+    pozyczki = cursor.fetchall()
+    cursor.close()
+    conn.close()
     return render_template('index.html', pozyczki=pozyczki)
 
 @app.route('/dodaj')
@@ -41,25 +45,26 @@ def dodaj():
     if not kwota:
         return render_template('dodaj.html', error="Nie podano kwoty")
     
-    pozyczki.append({
-        "osoba" : osoba,
-        "kwota" : kwota,
-        "typ" : typ,
-        "data" : data
-    })
-    zapisz_pozyczki()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO pozyczki (osoba, kwota, typ, data) VALUES (%s, %s, %s, %s)", (osoba, kwota, typ, data))
+    conn.commit()
+    cursor.close()
+    conn.close()
     
     return redirect('/')
 
 @app.route('/usun-zaznaczone', methods=['post'])
 def usun_zaznaczone():
-    if pozyczki:
-        do_usuniecia = request.form.getlist('usun-zaznaczone')
-        if do_usuniecia:
-            do_usuniecia = sorted(map(int, do_usuniecia), reverse=True)
-            for usun in do_usuniecia:
-                pozyczki.pop(usun)
-    zapisz_pozyczki()
+    do_usuniecia = request.form.getlist('usun-zaznaczone')
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    for id in do_usuniecia:
+        cursor.execute("DELETE FROM pozyczki WHERE id = %s", (id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
     return redirect('/')
 
 if __name__=='__main__':
