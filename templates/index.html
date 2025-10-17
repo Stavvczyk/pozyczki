@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>Rejestr pożyczek</title>
+    </head>
+
+    <body>
+        <form action="/usun-zaznaczone" method="post">
+            <p>{% for pozycja in pozyczki %}
+                {{pozycja}}<input type="checkbox" name="usun-zaznaczone" value="{{loop.index0}}"><br>
+            {% endfor %}</p>
+            <input type="submit" value="usuń zaznaczone">
+        </form>
+        
+        <a href="/dodaj"><button>dodaj wpis</button></a>
+    </body>
+</html>
