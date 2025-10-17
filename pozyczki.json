@@ -1,0 +1,14 @@
+[
+    {
+        "osoba": "osoba",
+        "kwota": "4",
+        "typ": "komuś",
+        "data": "2025-10-17"
+    },
+    {
+        "osoba": "maciek",
+        "kwota": "20",
+        "typ": "komuś",
+        "data": "2025-10-17"
+    }
+]

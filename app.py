@@ -1,8 +1,21 @@
 from flask import Flask, redirect, request, render_template
+import json, os
 
 app = Flask(__name__)
 
 pozyczki = []
+
+def zapisz_pozyczki():
+    with open("pozyczki.json", "w", encoding="utf-8") as f:
+        json.dump(pozyczki, f, ensure_ascii=False, indent=4)
+
+def wczytaj_pozyczki():
+    global pozyczki
+    if os.path.exists("pozyczki.json"):
+        with open("pozyczki.json", "r", encoding="utf-8") as f:
+            pozyczki = json.load(f)
+
+wczytaj_pozyczki()
 
 @app.route('/')
 def home():
@@ -34,6 +47,7 @@ def dodaj():
         "typ" : typ,
         "data" : data
     })
+    zapisz_pozyczki()
     
     return redirect('/')
 
@@ -45,6 +59,7 @@ def usun_zaznaczone():
             do_usuniecia = sorted(map(int, do_usuniecia), reverse=True)
             for usun in do_usuniecia:
                 pozyczki.pop(usun)
+    zapisz_pozyczki()
     return redirect('/')
 
 if __name__=='__main__':
