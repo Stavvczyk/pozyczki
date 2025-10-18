@@ -9,15 +9,20 @@ conn = psycopg2.connect(
 )
 
 cursor = conn.cursor()
-cursor.execute("""CREATE TABLE IF NOT EXISTS pozyczki(
-               id SERIAL PRIMARY KEY,
-               osoba TEXT NOT NULL,
-               kwota TEXT NOT NULL,
-               typ TEXT NOT NULL,
-               data TEXT NOT NULL
-               );""")
+# cursor.execute("""CREATE TABLE IF NOT EXISTS pozyczki(
+#                id SERIAL PRIMARY KEY,
+#                osoba TEXT NOT NULL,
+#                kwota TEXT NOT NULL,
+#                opis TEXT NOT NULL,
+#                typ TEXT NOT NULL,
+#                data TEXT NOT NULL
+#                );""")
 
-conn.commit()
+# cursor.execute("DELETE FROM pozyczki")
+# conn.commit()
+
+cursor.execute("SELECT * FROM pozyczki")
+print(cursor.fetchall())
 
 cursor.close()
 conn.close()

@@ -33,6 +33,7 @@ def dodaj_wyswietlnie():
 def dodaj():
     osoba = request.form.get('osoba')
     kwota = request.form.get('kwota')
+    opis = request.form.get('opis')
     typ = request.form.get('typ')
     data = request.form.get('data')
 
@@ -41,13 +42,17 @@ def dodaj():
         data = str(date.today())
 
     if not osoba:
-        return render_template('dodaj.html', error="Nie podano osoby")
+        return render_template('dodaj.html', error="Nie podano osoby") # na tej podstawie możesz dodać później uzupełnianie
     if not kwota:
         return render_template('dodaj.html', error="Nie podano kwoty")
+    if not opis:
+        return render_template('dodaj.html', error="Nie podano opisu")
+    # jeśli by dać że jeśli coś jest to przekazać to i w html dać w okienkach textowych value że to to co przekazane
+
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO pozyczki (osoba, kwota, typ, data) VALUES (%s, %s, %s, %s)", (osoba, kwota, typ, data))
+    cursor.execute("INSERT INTO pozyczki (osoba, kwota, opis, typ, data) VALUES (%s, %s, %s, %s, %s)", (osoba, kwota, opis, typ, data))
     conn.commit()
     cursor.close()
     conn.close()
