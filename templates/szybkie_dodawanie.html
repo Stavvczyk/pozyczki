@@ -1,10 +1,10 @@
 <html>
     <head>
-        <title>Dodaj pożyczkę</title>
+        <title>Zarządzaj szybkimi wpisami</title>
     </head>
 
     <body>
-        <p><form action="/dodaj" method="post">
+        <p><form action="/szybkie-dodawanie" method="post">
             <input type="text" name="osoba" placeholder="Osoba"><br>
             <input type="number" name="kwota" placeholder="Kwota (zł)"><br>
             <input type="text" name="opis" placeholder="Krótki opis"><br>
@@ -13,18 +13,12 @@
             <input type="radio" id="od kogos" name="typ" value="od kogoś">
             <label for="od kogos">Pożyczone od kogoś</label><br>
             <input type="date" name="data"><br>
+            <input type="text" name="skrot" placeholder="Nazwa akcji">
             <input type="submit" value="Dodaj">
             <input type="submit" name="anulowany" value="Anuluj">
         </form></p>
         <p>{% if error %}
             {{error}}
         {% endif %}</p>
-        <form action="/szybki-wpis" method="post">
-        <p>{% for element in szybkie_lista %}
-                <input type="submit" name="skrot" value="{{element[6]}}"><br>
-            {% endfor %}
-        </p>
-        </form>
-        <a href="/dodaj-szybkie-dodawanie"><button>Dodaj szybką opcję</button></a>
     </body>
 </html>
