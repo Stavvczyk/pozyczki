@@ -6,7 +6,7 @@
     <body>
         <p><form action="/dodaj" method="post">
             <input type="text" name="osoba" placeholder="Osoba"><br>
-            <input type="number" name="kwota" placeholder="Kwota (zł)"><br>
+            <input type="number" name="kwota" step="0.01" placeholder="Kwota (zł)"><br>
             <input type="text" name="opis" placeholder="Krótki opis"><br>
             <input type="radio" id="komus" name="typ" value="komuś" checked>
             <label for="komus">Pożyczone komuś</label><br>
@@ -25,6 +25,6 @@
             {% endfor %}
         </p>
         </form>
-        <a href="/dodaj-szybkie-dodawanie"><button>Dodaj szybką opcję</button></a>
+        <a href="/dodaj-szybkie-dodawanie"><button>Szybkie dodawanie - zarządzaj</button></a>
     </body>
 </html>

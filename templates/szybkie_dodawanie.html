@@ -6,19 +6,24 @@
     <body>
         <p><form action="/szybkie-dodawanie" method="post">
             <input type="text" name="osoba" placeholder="Osoba"><br>
-            <input type="number" name="kwota" placeholder="Kwota (zł)"><br>
+            <input type="number" name="kwota" step="0.01" placeholder="Kwota (zł)"><br>
             <input type="text" name="opis" placeholder="Krótki opis"><br>
             <input type="radio" id="komus" name="typ" value="komuś" checked>
             <label for="komus">Pożyczone komuś</label><br>
             <input type="radio" id="od kogos" name="typ" value="od kogoś">
             <label for="od kogos">Pożyczone od kogoś</label><br>
-            <input type="date" name="data"><br>
             <input type="text" name="skrot" placeholder="Nazwa akcji">
             <input type="submit" value="Dodaj">
-            <input type="submit" name="anulowany" value="Anuluj">
+            <input type="submit" name="anulowany" value="Powrót">
         </form></p>
         <p>{% if error %}
-            {{error}}
+            {{error}}<br>
         {% endif %}</p>
+        <p><form action="/usuwanie-szybkich-akcji" method="post">
+            {% for element_listy in szybkie_lista %}
+                {{element_listy}}<input type="checkbox" name="szybkie_do_usuniecia" value="{{element_listy[0]}}"><br>
+            {% endfor %}
+            <input type="submit" value="Usuń zaznaczone">
+        </form></p>
     </body>
 </html>

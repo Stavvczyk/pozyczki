@@ -83,9 +83,15 @@ def usun_zaznaczone():
     
     return redirect('/')
 
-@app.route('/dodaj/szybkie-dodawanie')
+@app.route('/dodaj-szybkie-dodawanie')
 def szybkie_dodawanie_tworzenie():
-    return render_template('szybkie_dodawanie.html')
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM szybkie_dodawanie;")
+    szybkie_lista = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template('szybkie_dodawanie.html', szybkie_lista=szybkie_lista)
 
 @app.route('/szybkie-dodawanie', methods=['post'])
 def szybkie_dodawanie_dodaj_do_bazy():
@@ -97,7 +103,12 @@ def szybkie_dodawanie_dodaj_do_bazy():
     skrot = request.form.get('skrot')
     anulowane = request.form.get('anulowany')
 
-    if anulowane == "Anuluj":
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM szybkie_dodawanie;")
+    szybkie_lista = cursor.fetchall()
+
+    if anulowane == "Powrót":
         return redirect('/dodaj')
 
     if not data:
@@ -105,22 +116,33 @@ def szybkie_dodawanie_dodaj_do_bazy():
         data = str(date.today())
 
     if not osoba:
-        return render_template('szybkie_dodawanie.html', error="Nie podano osoby")
+        return render_template('szybkie_dodawanie.html', error="Nie podano osoby", szybkie_lista=szybkie_lista)
     if not kwota:
-        return render_template('szybkie_dodawanie.html', error="Nie podano kwoty")
+        return render_template('szybkie_dodawanie.html', error="Nie podano kwoty", szybkie_lista=szybkie_lista)
     if not opis:
-        return render_template('szybkie_dodawanie.html', error="Nie podano opisu")
+        return render_template('szybkie_dodawanie.html', error="Nie podano opisu", szybkie_lista=szybkie_lista)
     if not skrot:
-        return render_template('szybkie_dodawanie.html', error="Nie podano nazwy akcji")
+        return render_template('szybkie_dodawanie.html', error="Nie podano nazwy akcji", szybkie_lista=szybkie_lista)
     
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    
     cursor.execute("INSERT INTO szybkie_dodawanie (osoba, kwota, opis, typ, data, skrot) VALUES (%s, %s, %s, %s, %s, %s)", (osoba, kwota, opis, typ, data, skrot))
     conn.commit()
     cursor.close()
     conn.close()
     
     return redirect('/')
+
+@app.route('/usuwanie-szybkich-akcji', methods=['post'])
+def usuwanie_szybkich_akcji():
+    lista_do_usuniecia = request.form.getlist('szybkie_do_usuniecia')
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    for id in lista_do_usuniecia:
+        cursor.execute("DELETE FROM szybkie_dodawanie WHERE id = %s", (id,))
+    conn.commit()
+    cursor.close()
+    conn.commit()
+    return redirect('/dodaj-szybkie-dodawanie')
 
 @app.route('/szybki-wpis', methods=['post'])
 def dodaj_szybki_wpis():
