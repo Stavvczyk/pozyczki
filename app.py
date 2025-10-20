@@ -53,13 +53,11 @@ def dodaj():
         data = str(date.today())
 
     if not osoba:
-        return render_template('dodaj.html', error="Nie podano osoby") # na tej podstawie możesz dodać później uzupełnianie
+        return render_template('dodaj.html', error="Nie podano osoby", osoba=osoba, kwota=kwota, opis=opis)
     if not kwota:
-        return render_template('dodaj.html', error="Nie podano kwoty")
+        return render_template('dodaj.html', error="Nie podano kwoty", osoba=osoba, kwota=kwota, opis=opis)
     if not opis:
-        return render_template('dodaj.html', error="Nie podano opisu")
-    # jeśli by dać że jeśli coś jest to przekazać to i w html dać w okienkach textowych value że to to co przekazane
-
+        return render_template('dodaj.html', error="Nie podano opisu", osoba=osoba, kwota=kwota, opis=opis)
     
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -116,13 +114,37 @@ def szybkie_dodawanie_dodaj_do_bazy():
         data = str(date.today())
 
     if not osoba:
-        return render_template('szybkie_dodawanie.html', error="Nie podano osoby", szybkie_lista=szybkie_lista)
+        return render_template('szybkie_dodawanie.html',
+                                error="Nie podano osoby",
+                                szybkie_lista=szybkie_lista,
+                                osoba=osoba,
+                                kwota=kwota,
+                                opis=opis,
+                                skrot=skrot)
     if not kwota:
-        return render_template('szybkie_dodawanie.html', error="Nie podano kwoty", szybkie_lista=szybkie_lista)
+        return render_template('szybkie_dodawanie.html', 
+                               error="Nie podano kwoty", 
+                               szybkie_lista=szybkie_lista,
+                               osoba=osoba,
+                               kwota=kwota,
+                               opis=opis,
+                               skrot=skrot)
     if not opis:
-        return render_template('szybkie_dodawanie.html', error="Nie podano opisu", szybkie_lista=szybkie_lista)
+        return render_template('szybkie_dodawanie.html', 
+                               error="Nie podano opisu", 
+                               szybkie_lista=szybkie_lista,
+                               osoba=osoba,
+                               kwota=kwota,
+                               opis=opis,
+                               skrot=skrot)
     if not skrot:
-        return render_template('szybkie_dodawanie.html', error="Nie podano nazwy akcji", szybkie_lista=szybkie_lista)
+        return render_template('szybkie_dodawanie.html', 
+                               error="Nie podano nazwy akcji", 
+                               szybkie_lista=szybkie_lista,
+                               osoba=osoba,
+                               kwota=kwota,
+                               opis=opis,
+                               skrot=skrot)
     
     
     cursor.execute("INSERT INTO szybkie_dodawanie (osoba, kwota, opis, typ, data, skrot) VALUES (%s, %s, %s, %s, %s, %s)", (osoba, kwota, opis, typ, data, skrot))
