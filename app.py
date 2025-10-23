@@ -123,28 +123,28 @@ def szybkie_dodawanie_dodaj_do_bazy():
                                 skrot=skrot)
     if not kwota:
         return render_template('szybkie_dodawanie.html', 
-                               error="Nie podano kwoty", 
-                               szybkie_lista=szybkie_lista,
-                               osoba=osoba,
-                               kwota=kwota,
-                               opis=opis,
-                               skrot=skrot)
+                                error="Nie podano kwoty", 
+                                szybkie_lista=szybkie_lista,
+                                osoba=osoba,
+                                kwota=kwota,
+                                opis=opis,
+                                skrot=skrot)
     if not opis:
         return render_template('szybkie_dodawanie.html', 
-                               error="Nie podano opisu", 
-                               szybkie_lista=szybkie_lista,
-                               osoba=osoba,
-                               kwota=kwota,
-                               opis=opis,
-                               skrot=skrot)
+                                error="Nie podano opisu", 
+                                szybkie_lista=szybkie_lista,
+                                osoba=osoba,
+                                kwota=kwota,
+                                opis=opis,
+                                skrot=skrot)
     if not skrot:
         return render_template('szybkie_dodawanie.html', 
-                               error="Nie podano nazwy akcji", 
-                               szybkie_lista=szybkie_lista,
-                               osoba=osoba,
-                               kwota=kwota,
-                               opis=opis,
-                               skrot=skrot)
+                                error="Nie podano nazwy akcji", 
+                                szybkie_lista=szybkie_lista,
+                                osoba=osoba,
+                                kwota=kwota,
+                                opis=opis,
+                                skrot=skrot)
     
     
     cursor.execute("INSERT INTO szybkie_dodawanie (osoba, kwota, opis, typ, data, skrot) VALUES (%s, %s, %s, %s, %s, %s)", (osoba, kwota, opis, typ, data, skrot))
@@ -173,7 +173,7 @@ def dodaj_szybki_wpis():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM szybkie_dodawanie WHERE skrot = %s", (skrot,))
     conn.commit()
-
+    
     dane_do_dodania = cursor.fetchone()#jeśli się jedno dodaje a 2 nie to najprawdopodobniej skrot jest taki sam choć nie powinien
     osoba = dane_do_dodania[1]
     kwota = dane_do_dodania[2]

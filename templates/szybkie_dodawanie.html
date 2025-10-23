@@ -20,10 +20,61 @@
             {{error}}<br>
         {% endif %}</p>
         <p><form action="/usuwanie-szybkich-akcji" method="post">
-            {% for element_listy in szybkie_lista %}
-                {{element_listy}}<input type="checkbox" name="szybkie_do_usuniecia" value="{{element_listy[0]}}"><br>
-            {% endfor %}
-            <input type="submit" value="Usuń zaznaczone">
+            <table>
+            <caption>pożyczone komuś:</caption>
+            <thead>
+                <tr>
+                <th scope="col">Osoba</th>
+                <th scope="col">Kwota</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Data dodania</th>
+                <th scope="col">Skrót</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pozycja in szybkie_lista%}
+                        {% if pozycja[4] == "komuś" %}
+                        <tr>
+                            <td>{{pozycja[1]}}</td>
+                            <td>{{pozycja[2]}}zł</td>
+                            <td>{{pozycja[3]}}</td>
+                            <td>{{pozycja[5]}}</td>
+                            <td>{{pozycja[6]}}</td>
+                            <td><input type="checkbox" name="szybkie_do_usuniecia" value="{{pozycja[0]}}"></td>
+                        </tr>    
+                        {% endif %}
+                {% endfor %}
+            </tbody>
+            </table>
+            <br>
+            <table>
+            <caption>pożyczone od kogoś:</caption>
+            <thead>
+                <tr>
+                <th scope="col">Osoba</th>
+                <th scope="col">Kwota</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Data dodania</th>
+                <th scope="col">Skrót</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pozycja in szybkie_lista %}
+                        {% if pozycja[4] == "od kogoś" %}
+                        <tr>
+                            <td>{{pozycja[1]}}</td>
+                            <td>{{pozycja[2]}}zł</td>
+                            <td>{{pozycja[3]}}</td>
+                            <td>{{pozycja[5]}}</td>
+                            <td>{{pozycja[6]}}</td>
+                            <td><input type="checkbox" name="szybkie_do_usuniecia" value="{{pozycja[0]}}"></td>
+                        </tr>    
+                        {% endif %}
+                {% endfor %}
+            </tbody>
+            </table>
+            <br>
+            <input type="submit" value="usuń zaznaczone">
         </form></p>
     </body>
 </html>

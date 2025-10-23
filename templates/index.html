@@ -5,9 +5,56 @@
 
     <body>
         <form action="/usun-zaznaczone" method="post">
-            <p>{% for pozycja in pozyczki %}
-                {{pozycja}}<input type="checkbox" name="usun-zaznaczone" value="{{pozycja[0]}}"><br>
-            {% endfor %}</p>
+            <table>
+            <caption>pożyczone komuś:</caption>
+            <thead>
+                <tr>
+                <th scope="col">Osoba</th>
+                <th scope="col">Kwota</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Data dodania</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pozycja in pozyczki %}
+                        {% if pozycja[4] == "komuś" %}
+                        <tr>
+                            <td>{{pozycja[1]}}</td>
+                            <td>{{pozycja[2]}}zł</td>
+                            <td>{{pozycja[3]}}</td>
+                            <td>{{pozycja[5]}}</td>
+                            <td><input type="checkbox" name="usun-zaznaczone" value="{{pozycja[0]}}"></td>
+                        </tr>    
+                        {% endif %}
+                {% endfor %}
+            </tbody>
+            </table>
+            <br>
+            <table>
+            <caption>pożyczone od kogoś:</caption>
+            <thead>
+                <tr>
+                <th scope="col">Osoba</th>
+                <th scope="col">Kwota</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Data dodania</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pozycja in pozyczki %}
+                        {% if pozycja[4] == "od kogoś" %}
+                        <tr>
+                            <td>{{pozycja[1]}}</td>
+                            <td>{{pozycja[2]}}zł</td>
+                            <td>{{pozycja[3]}}</td>
+                            <td>{{pozycja[5]}}</td>
+                            <td><input type="checkbox" name="usun-zaznaczone" value="{{pozycja[0]}}"></td>
+                        </tr>    
+                        {% endif %}
+                {% endfor %}
+            </tbody>
+            </table>
+            <br>
             <input type="submit" value="usuń zaznaczone">
         </form>
         
